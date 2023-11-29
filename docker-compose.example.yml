@@ -1,0 +1,36 @@
+version: '3.4'
+
+services:
+  dns:
+    image: sameersbn/bind:latest
+    container_name: dns
+    ports:
+      - "8053:53/tcp"
+      - "8053:53/udp"
+    enviroment:
+      - TZ=UTC
+    volumes:age: sameersbn/bind:latest
+    volumes:
+      - ./bind:/data
+
+  monitoring:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+        - ./prometheus:/etc/prometheus
+    command:
+        - "--config.file=/etc/prometheus/prometheus.yml"
+  gitlab:
+    image: gitlab/gitlab-ee:latest
+    container_name: gitlab
+    ports:
+      - '80:80'
+      - '443:443'
+      - '22:22'
+    volumes:
+      - ./gitlab/config:/etc/gitlab
+      - ./gitlab/logs:/var/log/gitlab
+      - ./gitlab/data:/var/opt/gitlab
+

@@ -1,0 +1,5 @@
+zone "example.com" {
+    type master;
+    file "/data/example.com.zone";
+};
+
